@@ -23,10 +23,19 @@ const Card = ({ data }: Props) => {
         <div>{price}</div>
         <Link href={`/products/${title}?id=${id}`}>Детальніше</Link>
         <div
+<<<<<<< HEAD
           onClick={() => dispatch(addItemToCart(id))}
           className={s.card__btn}
         >
           Додати у корзину
+=======
+          onClick={() => {
+            dispatch(addItemToCart(id));
+          }}
+          className={s.card__btn}
+        >
+          Додати в корзину
+>>>>>>> c75980f1e1539cb3f30c36142554364a36d4d214
         </div>
       </div>
     </>

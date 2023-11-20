@@ -1,11 +1,16 @@
 import React from "react";
 import s from "./header.module.css";
 import Link from "next/link";
+// redux
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const COUNTER = useSelector((state: any) => state.counter.value);
+  const CARD_ITEMS = useSelector((state: any) => state.cart.item);
   return (
     <>
       <header className={s.header}>Header</header>
+      <p>{CARD_ITEMS.length}</p>
       <ul>
         <li>
           <Link href={`/`}>Home</Link>
@@ -19,7 +24,9 @@ const Header = () => {
         <li>
           <Link href={`/news`}>News</Link>
         </li>
-        <li></li>
+        <li>
+          <Link href={`/redux`}>Redux</Link>
+        </li>
         <li></li>
       </ul>
     </>

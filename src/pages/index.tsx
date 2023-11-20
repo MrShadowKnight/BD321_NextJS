@@ -1,9 +1,59 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import styles from '@/styles/Home.module.css'
+import { useState, useEffect, useMemo } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import styles from "@/styles/Home.module.css";
+// import components
+import Card from "@/components/card";
+import Banner from "@/components/banner";
+// modules
+import { Server } from "@/modules/server";
+// pictures
+import img from "@/assets/img/barbie.jpg";
 
+interface User {
+  name: string;
+  mail: string;
+  comment: string;
+}
 
 export default function Home() {
+  const data = [
+    { id: 1, title: "Test1", description: "Lorem1" },
+    { id: 2, title: "Test2", description: "Lorem2" },
+    { id: 3, title: "Test3", description: "Lorem3" },
+    { id: 4, title: "Test4", description: "Lorem4" },
+    { id: 5, title: "Test5", description: "Lorem5" },
+  ];
+  // init
+  const server = new Server();
+  // states
+  const [number, setNumber] = useState<number>(0);
+  // const [name, setName] = useState<string>("");
+  let [user, setUser] = useState<User>({
+    name: "test",
+    mail: "test",
+    comment: "test",
+  });
+
+  // on loan
+  useEffect(() => {
+    console.log("UseEffect", number);
+  }, [number]);
+
+  // calc
+  const adult = useMemo(() => {
+    if (number >= 18) {
+      return "Повнолітній";
+    } else {
+      return "Не повнолітній";
+    }
+  }, [number]);
+  // functions
+  const reverseProps = (data: string) => {
+    console.log("Reverse props! Worked!");
+    console.log(data);
+  };
   return (
     <>
       <Head>
@@ -14,9 +64,101 @@ export default function Home() {
       </Head>
       <main>
         HELLO WORLD!
-        <Link href="/about">About</Link>
-        <a href="/about">About</a>
+        <Banner
+          reverseProps={reverseProps}
+          title="test props"
+          description="Lorem Ipsum"
+        />
+        <nav>
+          <ul>
+            <li>
+              <Link href="/about">About</Link>
+            </li>
+            <li>
+              <Link href="/news">News</Link>
+            </li>
+            <li></li>
+          </ul>
+        </nav>
+        <div>{adult}</div>
+        <div>{number}</div>
+        <div>
+          {/* Increment */}
+          <button
+            onClick={() => {
+              setNumber(number + 1);
+            }}
+          >
+            {" "}
+            +{" "}
+          </button>
+          {/* Decrement */}
+          <button
+            onClick={() => {
+              setNumber(number - 1);
+            }}
+          >
+            {" "}
+            -{" "}
+          </button>
+        </div>
+        {/* {data.map((e: any) => {
+          return <Card num={number} data={e} key={e.id} />;
+        })} */}
+        {/* form */}
+        <form action="">
+          <input
+            value={user.name}
+            type="text"
+            placeholder="Enter your name: "
+            onChange={(e) => {
+              setUser({
+                ...user,
+                name: e.target.value,
+              });
+            }}
+          />
+          <input
+            value={user.mail}
+            type="mail"
+            placeholder="Enter your mail: "
+            onChange={(e) => {
+              setUser({
+                ...user,
+                mail: e.target.value,
+              });
+            }}
+          />
+          <textarea
+            value={user.comment}
+            placeholder="Enter text: "
+            onChange={(e) => {
+              setUser({
+                ...user,
+                comment: e.target.value,
+              });
+            }}
+          ></textarea>
+          <input
+            onClick={(e) => {
+              e.preventDefault();
+              server.post("/endpoint", user);
+            }}
+            type="submit"
+          />
+        </form>
+        <Image
+          style={{
+            marginLeft: 25,
+            padding: 25,
+          }}
+          src={img}
+          width={300}
+          height={300}
+          alt="test"
+          quality={85}
+        />
       </main>
     </>
-  )
+  );
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // styles
 import s from "./products.module.scss";
 // interface
-import { Product } from "@/interfaces/index";
+import { Product } from "@/interfaces";
 // components
 import Card from "@/components/productCard";
 // modules
@@ -34,7 +34,7 @@ const Products = ({ prods }: Props) => {
 // SSR
 export async function getServerSideProps() {
   const prod = new Prod();
-  const data = await prod.getData("posts");
+  const data = await prod.getData("products");
   return { props: { prods: data } };
 }
 

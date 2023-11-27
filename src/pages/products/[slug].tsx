@@ -5,23 +5,13 @@ import s from "./single.module.scss";
 // module
 import { Products } from "@/modules/products";
 
-const SingleProduct = () => {
-  //init
-  const prod = new Products();
+interface Props {
+  data: {};
+}
+
+const SingleProduct = ({ data }: Props) => {
   //states
-  const [product, setProduct] = useState<any>();
-  // router
-  const router = useRouter();
-  const { slug, id } = router.query;
-
-  // load
-  // useEffect(() => {
-  //   slug &&
-  //     prod.getData(`/posts/${id}`).then((data) => {
-  //       setProduct(data);
-  //     });
-  // }, [slug]);
-
+  const [product, setProduct] = useState<any>(data);
   return (
     <div>
       <h1>{product?.title}</h1>
@@ -31,12 +21,14 @@ const SingleProduct = () => {
 };
 
 //SSR
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx: any) {
+  // init
   const prod = new Products();
-  const id = 1;
-  const data = await prod.getData(`/posts/${id}`);
-  console.log(data);
-  return { props: { prods: "text" } };
+  // get query from url
+  const { id } = ctx.query;
+  // get post by id
+  const data = await prod.getData(`products/${id}`);
+  return { props: { data } };
 }
 
 export default SingleProduct;

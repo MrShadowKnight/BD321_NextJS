@@ -15,12 +15,12 @@ const SingleProduct = () => {
   const { slug, id } = router.query;
 
   // load
-  useEffect(() => {
-    slug &&
-      prod.getData(`/posts/${id}`).then((data) => {
-        setProduct(data);
-      });
-  }, [slug]);
+  // useEffect(() => {
+  //   slug &&
+  //     prod.getData(`/posts/${id}`).then((data) => {
+  //       setProduct(data);
+  //     });
+  // }, [slug]);
 
   return (
     <div>
@@ -29,5 +29,14 @@ const SingleProduct = () => {
     </div>
   );
 };
+
+//SSR
+export async function getServerSideProps() {
+  const prod = new Products();
+  const id = 1;
+  const data = await prod.getData(`/posts/${id}`);
+  console.log(data);
+  return { props: { prods: "text" } };
+}
 
 export default SingleProduct;

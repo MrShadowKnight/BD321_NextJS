@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // styles
 import s from "./products.module.scss";
 // interface
-import { Product } from "@/interfaces";
+import { Product } from "@/interfaces/index";
 // components
 import Card from "@/components/productCard";
 // modules

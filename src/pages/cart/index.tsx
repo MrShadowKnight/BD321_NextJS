@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useMemo } from "react";
 import s from "./index.module.scss";
+// redux
+import { useSelector, useDispatch } from "react-redux";
+// modules
+import { Cart as C } from "@/modules/cart";
 
 const Cart = () => {
+  // init
+  const cart = new C();
+  // redux states
+  const CART_ITEMS = useSelector((state: any) => state.cart.items);
+  // format data
+  const CART_PRODUCTS = useMemo(() => {
+    return cart.createPrettyData(CART_ITEMS);
+  }, [CART_ITEMS]);
+  cart.createPrettyData(CART_ITEMS);
+  console.log("____CART_ITEMS", CART_ITEMS);
   return (
     <>
       <main className={s.cart}>
         <h2>CART</h2>
+        {CART_PRODUCTS.map((item: any) => {
+          return (
+            <div key={item.id}>
+              <h2>{item.id}</h2>
+              <p>{item.quantity}</p>
+            </div>
+          );
+        })}
       </main>
     </>
   );
